@@ -18,7 +18,7 @@ function reformatData(data: string): [string[], string[]] {
   return [leftList, rightList]
 }
 
-function compareLists(leftList: string[], rightList: string[]) {
+function compareDistance(leftList: string[], rightList: string[]) {
   let sum = 0
   for (let i = 0; i < leftList.length; i++) {
     const leftNum = parseInt(leftList[i]!)
@@ -30,12 +30,28 @@ function compareLists(leftList: string[], rightList: string[]) {
   return sum
 }
 
+function compareSimilarity(leftList: string[], rightList: string[]) {
+  let similarityScore = 0
+  for (const leftEntry of leftList) {
+    let matchCount = 0
+    for (const rightEntry of rightList) {
+      if (leftEntry === rightEntry) {
+        matchCount++
+      }
+    }
+    similarityScore += parseInt(leftEntry) * matchCount
+  }
+  return similarityScore
+}
+
+const formattedData = reformatData(data.part1)
+
 
 module.exports = {
-  part1: () => {
-    const totalDistance = compareLists(...reformatData(data.part1))
-  
-    console.log(totalDistance)
+  part1: () => {  
+    console.log(compareDistance(...formattedData))
   },
-  part2: () => {}
+  part2: () => {
+    console.log(compareSimilarity(...formattedData))
+  }
 }
